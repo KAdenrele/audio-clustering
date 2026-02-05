@@ -86,21 +86,18 @@ for model_name in os.listdir(BASE_DIR):
 print("\nCalculating Clusters...")
 df = pd.DataFrame(results)
 
-# 1. Select numeric features for UMAP
-# These are the dimensions we will squash down to 2D
+
 features = [
     "lsd", 
     "si_sdr", 
     "centroid_shift_hz", 
     "bandwidth_retained_pct", 
-    "flatness_shift",
+    "flatness_change",
     "avg_coherence"
 ]
 
-# Handle NaN (failed metrics) by filling with mean or 0
 X = df[features].fillna(0)
 
-# Scale features (Critical: LSD is 0-5, Centroid is 0-5000. Scaling makes them equal importance)
 X_scaled = StandardScaler().fit_transform(X)
 
 # UMAP Projection
