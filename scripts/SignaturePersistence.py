@@ -13,7 +13,7 @@ from audio_reverse import AudioRestorer
 # --- Configuration ---
 BASE_DIR = "./data/audio_files"
 RESULTS_DIR = "./data"
-TARGET_PLATFORM = "whatsapp_voice" # The "Attack" to simulate
+TARGET_PLATFORM = "whatsapp_voice"
 engine = ForensicAudioEngine()
 results = []
 
