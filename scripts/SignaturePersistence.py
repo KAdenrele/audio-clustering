@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import umap
+from sklearn.decomposition import PCA
 import plotly.express as px
 from sklearn.preprocessing import StandardScaler
 
@@ -91,6 +92,13 @@ features = [
 X = df_clean[features].fillna(df_clean[features].mean())
 X_scaled = StandardScaler().fit_transform(X)
 
+
+#using PCA
+pca = PCA(n_components=2, random_state=42)
+embedding = pca.fit_transform(X_scaled)
+var_ratio = pca.explained_variance_ratio_
+total_var = sum(var_ratio) * 100
+
 # UMAP Projection
 # n_neighbors=7 is tuned for ~15 samples per class to allow distinct islands
 reducer = umap.UMAP(n_neighbors=7, min_dist=0.1, random_state=42)
@@ -117,6 +125,6 @@ fig.add_annotation(
     font=dict(color="gray", size=12)
 )
 
-output_file = os.path.join(RESULTS_DIR, "data/signature_persistence_cluster.html")
+output_file = os.path.join(RESULTS_DIR, "signature_persistence_cluster.html")
 fig.write_html(output_file)
 print(f"Analysis Complete. Open {output_file} to view clusters.")
