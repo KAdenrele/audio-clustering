@@ -22,7 +22,7 @@ def run_task(script_path):
 
 if __name__ == "__main__":
     #run_task("audio_download.py")
-    run_task("SignaturePersistence.py")
-    #run_task("ProcessingCluster.py") 
+    #run_task("SignaturePersistence.py")
+    run_task("ProcessingCluster.py") 
     
     print("\n🎉 [MAIN] Pipeline finished successfully. Outputs saved to data/ folder.")

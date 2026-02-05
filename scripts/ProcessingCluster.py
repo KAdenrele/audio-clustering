@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import umap
+from sklearn.decomposition import PCA
 import plotly.express as px
 from sklearn.preprocessing import StandardScaler
 
@@ -23,13 +24,13 @@ SIMULATIONS = [
     ("process_facebook", "Facebook Voice", ".mp4", {}),
     ("process_signal", "Signal Voice", ".ogg", {}),
     ("process_telegram", "Telegram Voice", ".ogg", {}),
-    ("process_whatsapp_media", "WhatsApp Media (Std)", ".mp4", {"quality_mode": "standard"}),
-    ("process_whatsapp_media", "WhatsApp Media (HD)", ".mp4", {"quality_mode": "high"}),
-    ("process_telegram_media", "Telegram Media", ".mp4", {}),
-    ("process_signal_media", "Signal Media", ".mp4", {}),
-    ("process_tiktok_media", "TikTok Media", ".mp4", {}),
-    ("process_instagram_media", "Instagram Media", ".mp4", {}),
-    ("process_facebook_media", "Facebook Media", ".mp4", {})
+    # ("process_whatsapp_media", "WhatsApp Media (Std)", ".mp4", {"quality_mode": "standard"}),
+    # ("process_whatsapp_media", "WhatsApp Media (HD)", ".mp4", {"quality_mode": "high"}),
+    # ("process_telegram_media", "Telegram Media", ".mp4", {}),
+    # ("process_signal_media", "Signal Media", ".mp4", {}),
+    # ("process_tiktok_media", "TikTok Media", ".mp4", {}),
+    # ("process_instagram_media", "Instagram Media", ".mp4", {}),
+    # ("process_facebook_media", "Facebook Media", ".mp4", {})
 ]
 
 print("Starting Forensic Audit across 13 Social Media Pipelines...")
@@ -100,9 +101,15 @@ X = df[features].fillna(0)
 
 X_scaled = StandardScaler().fit_transform(X)
 
-# UMAP Projection
-reducer = umap.UMAP(n_neighbors=15, min_dist=0.1, random_state=42)
-embedding = reducer.fit_transform(X_scaled)
+#using PCA
+pca = PCA(n_components=2, random_state=42)
+embedding = pca.fit_transform(X_scaled)
+var_ratio = pca.explained_variance_ratio_
+total_var = sum(var_ratio) * 100
+
+# # UMAP Projection
+# reducer = umap.UMAP(n_neighbors=15, min_dist=0.1, random_state=42)
+# embedding = reducer.fit_transform(X_scaled)
 
 df['x'] = embedding[:, 0]
 df['y'] = embedding[:, 1]
