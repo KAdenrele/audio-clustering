@@ -28,4 +28,4 @@ RUN uv pip install --system pyproject.toml
 
 COPY . .
 
-CMD ["uv", "run", "scripts/ProcessingCluster.py"]
+CMD ["uv", "run", "main.py"]
